@@ -24,9 +24,11 @@ class Query:
         return list(Roles.objects.all())
 
     @strawberry.field
-    def users(self, id: int = None) -> List[UsersType]:
+    def users(self,address: str = None, id: int = None) -> List[UsersType]:
         if id is not None:
             return list(Users.objects.filter(id=id))
+        if address is not None:
+            return list(Users.objects.filter(address=address))
         return list(Users.objects.all())
 
     @strawberry.field

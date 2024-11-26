@@ -18,6 +18,7 @@ ALLOWED_HOSTS = ['*']
 
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,7 +50,7 @@ ROOT_URLCONF = 'TON_market_backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -110,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Your frontend origin
+    "http://localhost:5173",  
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -129,8 +130,24 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-
 STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "minty",
+}
+
+JAZZMIN_SETTINGS = {
+    "site_title": "TON Market",
+
+    "site_header": "TON Market",
+    "site_brand": "TON Market",
+
+    "topmenu_links": [
+        {"name": "Операции с Базой Данных",  "url": "graphql_api:functions_admin" },
+
+    ],
+
+}

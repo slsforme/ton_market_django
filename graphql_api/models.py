@@ -8,7 +8,12 @@ class Logs(models.Model):
     log_type = models.CharField(max_length=255)
     name = models.CharField(max_length=1000)
 
+    def __str__(self):
+        return f"Лог {self.interaction_type} : {self.created_at}"
+
     class Meta:
+        verbose_name = "Логи"
+        verbose_name_plural = "Логи"
         managed = False
         db_table = 'logs'
 
@@ -17,9 +22,15 @@ class ProductTypes(models.Model):
     id = models.AutoField(primary_key=True)  # Добавляем id
     name = models.CharField(unique=True, max_length=255)
 
+    def __str__(self):
+        return f"{self.name}"
+
     class Meta:
+        verbose_name = "Типы продуктов"
+        verbose_name_plural = "Типы продуктов"
         managed = False
         db_table = 'product_types'
+        
 
 
 class Products(models.Model):
@@ -31,7 +42,12 @@ class Products(models.Model):
     metadata = models.TextField(blank=True, null=True)
     type = models.ForeignKey(ProductTypes, models.DO_NOTHING, db_column='type_id')
 
+    def __str__(self):
+        return f"Товар {self.name}"
+
     class Meta:
+        verbose_name = "Товары"
+        verbose_name_plural = "Товары"
         managed = False
         db_table = 'products'
 
@@ -43,7 +59,13 @@ class Requests(models.Model):
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
 
+
+    def __str__(self):
+        return f"Запрос от {self.created_at}"
+
     class Meta:
+        verbose_name = "Запросы"
+        verbose_name_plural = "Запросы"
         managed = False
         db_table = 'requests'
 
@@ -52,7 +74,12 @@ class Roles(models.Model):
     id = models.AutoField(primary_key=True)  # Добавляем id
     name = models.CharField(unique=True, max_length=255)
 
+    def __str(self):
+        return f"Роль {self.name}"
+
     class Meta:
+        verbose_name = "Роли"
+        verbose_name_plural = "Роли"
         managed = False
         db_table = 'roles'
 
@@ -66,7 +93,12 @@ class SmartContracts(models.Model):
     createad_at = models.DateTimeField()
     uuid = models.UUIDField()
 
+    def __str__(self):
+        return f"Смарт контракт {self.onchain_address}"
+
     class Meta:
+        verbose_name = "Смарт контракты"
+        verbose_name_plural = "Смарт контракты"
         managed = False
         db_table = 'smart_contracts'
 
@@ -81,7 +113,12 @@ class Transactions(models.Model):
     owner_address = models.CharField(max_length=60)
     receiver_address = models.CharField(max_length=60, blank=True, null=True)
 
+    def __str__(self):
+        return f"tx {self.tx_hash}" 
+
     class Meta:
+        verbose_name = "Транзакции"
+        verbose_name_plural = "Транзакции"
         managed = False
         db_table = 'transactions'
 
@@ -92,9 +129,15 @@ class UserLogs(models.Model):
     log = models.ForeignKey(Logs, models.DO_NOTHING, db_column='log_id')
     uuid = models.UUIDField()
 
+    def __str__(self):
+        return f"Лог {self.uuid}"
+
     class Meta:
+        verbose_name = "Логи Пользователей"
+        verbose_name_plural = "Логи Пользователей"
         managed = False
         db_table = 'user_logs'
+
 
 
 class UserRequests(models.Model):
@@ -103,9 +146,15 @@ class UserRequests(models.Model):
     request = models.ForeignKey(Requests, models.DO_NOTHING, db_column='request_id')
     uuid = models.UUIDField()
 
+    def __str__(self):
+        return f"Запрос {self.uuid}"
+
     class Meta:
+        verbose_name = "Запросы пользователей"
+        verbose_name_plural = "Запросы пользователей"
         managed = False
         db_table = 'user_requests'
+
 
 
 class UserTransactions(models.Model):
@@ -114,7 +163,12 @@ class UserTransactions(models.Model):
     tx = models.ForeignKey(Transactions, models.DO_NOTHING, db_column='tx_id')
     uuid = models.UUIDField()
 
+    def __str__(self):
+        return f"tx {self.uuid}"
+
     class Meta:
+        verbose_name = "Транзакции пользователей"
+        verbose_name_plural = "Транзакции пользователей"
         managed = False
         db_table = 'user_transactions'
 
@@ -127,6 +181,12 @@ class Users(models.Model):
     address = models.CharField(unique=True, max_length=60)
     role = models.ForeignKey(Roles, models.DO_NOTHING, db_column='role_id')
 
+
+    def __str__(self):
+        return f"Пользователь {self.uuid}"
+    
     class Meta:
+        verbose_name = "Пользователи"
+        verbose_name_plural = "Пользователи"
         managed = False
         db_table = 'users'
