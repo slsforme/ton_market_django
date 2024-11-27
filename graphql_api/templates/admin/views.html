@@ -1,0 +1,62 @@
+{% extends "admin/base_site.html" %}  <!-- Используем базовый шаблон Jazzmin -->
+
+{% block title %}Таблицы{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="py-4">Таблицы</h1>
+    <hr class="my-5">
+    <h3 class="py-4">Пользователи</h3>
+    <div style="max-height: 500px; overflow-y: auto;">  
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>UUID</th>
+                    <th>Login</th>
+                    <th>Address</th>
+                    <th>Role Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users_with_roles %}
+                <tr>
+                    <td>{{ user.0 }}</td>
+                    <td>{{ user.1 }}</td>
+                    <td>{{ user.2 }}</td>
+                    <td>{{ user.3 }}</td>
+                    <td>{{ user.4 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <hr class="my-5">
+    <h3 class="py-4">Товары</h3>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ID Товара</th>
+                <th>Название</th>
+                <th>Ончейн адрес</th>
+                <th>Адрес владельца</th>
+                <th>Тип продукта</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products_with_types %}
+            <tr>
+                <td>{{ product.0 }}</td>
+                <td>{{ product.1 }}</td>
+                <td>{{ product.2 }}</td>
+                <td>{{ product.3 }}</td>
+                <td>{{ product.4 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}

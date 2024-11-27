@@ -19,6 +19,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'jazzmin',
+    'import_export',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -146,8 +147,8 @@ JAZZMIN_SETTINGS = {
     "site_brand": "TON Market",
 
     "topmenu_links": [
-        {"name": "Операции с Базой Данных",  "url": "graphql_api:functions_admin" },
-
+        {"name": "Операции с Базой Данных",  "url": "/functions_admin/" },
+        {"name": "Таблицы",  "url": "/virtual_views/" },
     ],
 
 }

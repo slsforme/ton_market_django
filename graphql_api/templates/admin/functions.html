@@ -1,9 +1,120 @@
 {% extends "admin/base_site.html" %}
 
+{% block title %}Импорт/Экспорт данных{% endblock %}
+
 {% block content %}
-<h1>Операции с Базой Данных</h1>
+<div class="container py-5">
+    <h1 class="my-4">Управление базой данных</h1>
 
-todo: сделать выбор директории для сохранения бэкапа / импорта / экспорта данных в таблицы / 
-изменить иконку для сайта , также сделать views на отдельной странице 
+    <!-- Функционал для бэкапа -->
+    <form action="{% url 'backup_database' %}" method="get" class="mb-3">
+        <button type="submit" class="btn btn-primary">Сделать backup Базы Данных</button>
+    </form>
 
+    <!-- Карточка с описанием -->
+    <div class="card my-4">
+        <div class="card-body">
+            <p>Задачи:
+            <ul>
+                <li>Изменить иконку для сайта.</li>
+                <li>Создать views на отдельной странице.</li>
+            </ul>
+            </p>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <!-- Новый функционал -->
+    <div class="card shadow mt-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Экспорт данных</h5>
+        </div>
+        <div class="card-body">
+            <form method="post" action="{% url 'export_data' %}">
+                {% csrf_token %}
+                <!-- Выбор модели -->
+                <div class="mb-4">
+                    <label for="modelSelectExport" class="form-label">Выберите модель</label>
+                    <select id="modelSelectExport" name="model" class="form-select" required>
+                        <option value="" disabled selected>Выберите модель...</option>
+                        <option value="Logs">Логи</option>
+                        <option value="ProductTypes">Типы продуктов</option>
+                        <option value="Products">Товары</option>
+                        <option value="Requests">Запросы</option>
+                        <option value="Roles">Роли</option>
+                        <option value="SmartContracts">Смарт контракты</option>
+                        <option value="Transactions">Транзакции</option>
+                        <option value="UserLogs">Логи Пользователей</option>
+                        <option value="UserRequests">Запросы Пользователей</option>
+                        <option value="UserTransactions">Транзакции Пользователей</option>
+                        <option value="Users">Пользователи</option>
+                    </select>
+                </div>
+
+                <!-- Выбор формата -->
+                <div class="mb-4">
+                    <label for="fileFormatExport" class="form-label">Выберите формат</label>
+                    <select id="fileFormatExport" name="format" class="form-select" required>
+                        <option value="" disabled selected>Выберите формат...</option>
+                        <option value="csv">CSV</option>
+                        <option value="json">JSON</option>
+                        <option value="xlsx">XLSX</option>
+                        <option value="sql">SQL</option>
+                    </select>
+                </div>
+
+                <!-- Кнопка -->
+                <div class="d-flex justify-content-start">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-download"></i> Экспортировать
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow mt-4">
+        <div class="card-header bg-success text-white">
+            <h5 class="mb-0">Импорт данных</h5>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data" action="{% url 'import_data' %}">
+                {% csrf_token %}
+
+                <!-- Выбор модели -->
+                <div class="mb-4">
+                    <label for="modelSelectImport" class="form-label">Выберите модель</label>
+                    <select id="modelSelectImport" name="model" class="form-select" required>
+                        <option value="" disabled selected>Выберите модель...</option>
+                        <option value="Logs">Логи</option>
+                        <option value="ProductTypes">Типы продуктов</option>
+                        <option value="Products">Товары</option>
+                        <option value="Requests">Запросы</option>
+                        <option value="Roles">Роли</option>
+                        <option value="SmartContracts">Смарт контракты</option>
+                        <option value="Transactions">Транзакции</option>
+                        <option value="UserLogs">Логи Пользователей</option>
+                        <option value="UserRequests">Запросы Пользователей</option>
+                        <option value="UserTransactions">Транзакции Пользователей</option>
+                        <option value="Users">Пользователи</option>
+                    </select>
+                </div>
+
+                <!-- Файл для импорта -->
+                <div class="mb-4">
+                    <label for="importFile" class="form-label">Загрузите файл для импорта</label>
+                    <input type="file" id="importFile" name="file" class="form-control" required>
+                </div>
+
+                <!-- Кнопка -->
+                <div class="d-flex justify-content-start">
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-upload"></i> Импортировать
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

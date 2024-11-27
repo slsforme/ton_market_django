@@ -74,7 +74,7 @@ class Roles(models.Model):
     id = models.AutoField(primary_key=True)  # Добавляем id
     name = models.CharField(unique=True, max_length=255)
 
-    def __str(self):
+    def __str__(self):
         return f"Роль {self.name}"
 
     class Meta:
