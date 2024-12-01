@@ -1,12 +1,14 @@
 from django.db import models
-
+from django.db.models.signals import post_save, pre_delete
+from django.dispatch import receiver
 
 class Logs(models.Model):
-    id = models.AutoField(primary_key=True)  # Добавляем id
+    id = models.AutoField(primary_key=True)  
     interaction_type = models.CharField(max_length=255)
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
     log_type = models.CharField(max_length=255)
     name = models.CharField(max_length=1000)
+    is_auto_created = models.BooleanField(default=False)  
 
     def __str__(self):
         return f"Лог {self.interaction_type} : {self.created_at}"
@@ -174,13 +176,12 @@ class UserTransactions(models.Model):
 
 
 class Users(models.Model):
-    id = models.AutoField(primary_key=True)  # Добавляем id
+    id = models.AutoField(primary_key=True)
     uuid = models.UUIDField()
     login = models.CharField(max_length=50)
     password = models.CharField(max_length=65)
     address = models.CharField(unique=True, max_length=60)
     role = models.ForeignKey(Roles, models.DO_NOTHING, db_column='role_id')
-
 
     def __str__(self):
         return f"Пользователь {self.uuid}"

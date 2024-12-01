@@ -11,11 +11,11 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>User ID</th>
+                    <th>ID Пользователя</th>
                     <th>UUID</th>
-                    <th>Login</th>
-                    <th>Address</th>
-                    <th>Role Name</th>
+                    <th>Логин</th>
+                    <th>Ончейн адрес</th>
+                    <th>Название роли</th>
                 </tr>
             </thead>
             <tbody>
@@ -56,6 +56,42 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <hr class="my-5">
+    <h3 class="py-4">Транзакции</h3>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ID Транзакции</th>
+                <th>Хэш Транзакции</th>
+                <th>ID Смарт Контракта </th>
+                <th>Тип Транзакции</th>
+                <th>ID Товара</th>
+                <th>Дата Транзакции</th>
+                <th>Адрес Владельца</th>
+                <th>Адрес получателя</th>
+                <th>Адрес Смарт Контракта</th>
+                <th>Название Товара</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tx in txs %}
+            <tr>
+                <td>{{ tx.0 }}</td>
+                <td>{{ tx.1 }}</td>
+                <td>{{ tx.2 }}</td>
+                <td>{{ tx.3 }}</td>
+                <td>{{ tx.4 }}</td>
+                <td>{{ tx.5 }}</td>
+                <td>{{ tx.6 }}</td>
+                <td>{{ tx.7 }}</td>
+                <td>{{ tx.78}}</td>
+                <td>{{ tx.9 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 
 </div>
 
