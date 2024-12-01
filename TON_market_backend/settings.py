@@ -31,7 +31,8 @@ INSTALLED_APPS = [
     'corsheaders',
 
     # local apps
-    'graphql_api',
+    'graphql_api.apps.GraphqlApiConfig',
+
 
 ]
 
@@ -150,5 +151,5 @@ JAZZMIN_SETTINGS = {
         {"name": "Операции с Базой Данных",  "url": "/functions_admin/" },
         {"name": "Таблицы",  "url": "/virtual_views/" },
     ],
-
 }
+

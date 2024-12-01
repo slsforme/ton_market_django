@@ -10,8 +10,6 @@ from django.utils.timezone import now
 from django.conf import settings
 
 
-
-
 @admin.register(Logs)
 class LogsAdmin(admin.ModelAdmin):
     list_display = ('id', 'interaction_type', 'created_at', 'log_type', 'name')
@@ -97,7 +95,7 @@ class UserTransactionsAdmin(admin.ModelAdmin):
 
 @admin.register(Users)
 class UsersAdmin(admin.ModelAdmin):
-    list_display = ('id', 'uuid', 'login', 'address', 'role')
+    list_display = ('id', 'login', 'address', 'role')
     search_fields = ('login', 'address', 'uuid')
     list_filter = ('role',)
     list_per_page = 20
