@@ -1,85 +1,155 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" version="25.0.3">
   <diagram name="Страница — 1" id="OhYXw15gzidwMvP4QFlt">
-    <mxGraphModel dx="1928" dy="617" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2369" dy="864" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="X4jMold8J7gIbocjzrvS-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="X4jMold8J7gIbocjzrvS-1" target="X4jMold8J7gIbocjzrvS-4">
+        <mxCell id="X4jMold8J7gIbocjzrvS-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="X4jMold8J7gIbocjzrvS-1" target="X4jMold8J7gIbocjzrvS-4" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="X4jMold8J7gIbocjzrvS-1" target="X4jMold8J7gIbocjzrvS-2">
+        <mxCell id="X4jMold8J7gIbocjzrvS-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="X4jMold8J7gIbocjzrvS-1" target="X4jMold8J7gIbocjzrvS-2" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="X4jMold8J7gIbocjzrvS-1" target="X4jMold8J7gIbocjzrvS-3">
+        <mxCell id="X4jMold8J7gIbocjzrvS-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="X4jMold8J7gIbocjzrvS-1" target="X4jMold8J7gIbocjzrvS-3" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-1" value="Схема тестирования NFT Маркетплейса" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-1" value="Схема тестирования NFT Маркетплейса" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="309" y="150" width="210" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-2" value="Пользователь" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-2" value="Пользователь" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="-60" y="310" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-3" value="Менеджер" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-3" value="Менеджер" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="690" y="310" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-4" value="Администратор" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="O5A4-7yk59-mFuPvrCqS-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="X4jMold8J7gIbocjzrvS-4" target="X4jMold8J7gIbocjzrvS-21">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="420" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="O5A4-7yk59-mFuPvrCqS-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="X4jMold8J7gIbocjzrvS-4" target="X4jMold8J7gIbocjzrvS-15">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="525" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="O5A4-7yk59-mFuPvrCqS-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="X4jMold8J7gIbocjzrvS-4" target="X4jMold8J7gIbocjzrvS-8">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="420" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="O5A4-7yk59-mFuPvrCqS-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="X4jMold8J7gIbocjzrvS-4" target="X4jMold8J7gIbocjzrvS-10">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="525" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="O5A4-7yk59-mFuPvrCqS-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="X4jMold8J7gIbocjzrvS-4" target="X4jMold8J7gIbocjzrvS-14">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="645" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="O5A4-7yk59-mFuPvrCqS-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="X4jMold8J7gIbocjzrvS-4" target="X4jMold8J7gIbocjzrvS-11">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="645" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="O5A4-7yk59-mFuPvrCqS-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="X4jMold8J7gIbocjzrvS-4" target="X4jMold8J7gIbocjzrvS-13">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="765" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="O5A4-7yk59-mFuPvrCqS-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="X4jMold8J7gIbocjzrvS-4" target="X4jMold8J7gIbocjzrvS-12">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="765" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="O5A4-7yk59-mFuPvrCqS-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="X4jMold8J7gIbocjzrvS-4" target="X4jMold8J7gIbocjzrvS-17">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="885" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="O5A4-7yk59-mFuPvrCqS-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="X4jMold8J7gIbocjzrvS-4" target="X4jMold8J7gIbocjzrvS-18">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="895" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="X4jMold8J7gIbocjzrvS-4" value="Администратор" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="354" y="310" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-8" value="Авторизация" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-8" value="Авторизация" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="519" y="390" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-10" value="Просмотр, Создание, Удаление, Изменение Пользователей в Админ - Панели" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-10" value="Просмотр, Создание, Удаление, Изменение Пользователей в Админ - Панели" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="520" y="480" width="120" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-11" value="Просмотр, Создание, Удаление, Изменение Ролей в Админ - Панели" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-11" value="Просмотр, Создание, Удаление, Изменение Ролей в Админ - Панели" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="520" y="600" width="120" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-12" value="Просмотр, Создание, Удаление, Изменение Смарт контрактов в Админ - Панели" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-12" value="Просмотр, Создание, Удаление, Изменение Смарт контрактов в Админ - Панели" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="520" y="720" width="120" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-13" value="Просмотр, Создание, Удаление, Изменение Транзакций в Админ - Панели" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-13" value="Просмотр, Создание, Удаление, Изменение Транзакций в Админ - Панели" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="200" y="720" width="120" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-14" value="Просмотр, Создание, Удаление, Изменение Товаров в Админ - Панели" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-14" value="Просмотр, Создание, Удаление, Изменение Товаров в Админ - Панели" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="200" y="600" width="120" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-15" value="Просмотр, Создание, Удаление, Изменение Типов Товаров в Админ - Панели" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-15" value="Просмотр, Создание, Удаление, Изменение Типов Товаров в Админ - Панели" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="200" y="480" width="120" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-16" value="Просмотр Логов в Админ - Панели" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-16" value="Просмотр Логов в Админ - Панели" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="520" y="975" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-17" value="Просмотр, Создание, Удаление,&amp;nbsp;&lt;div&gt;Изменение Запросов&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;в Админ - Панели&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-17" value="Просмотр, Создание, Удаление,&amp;nbsp;&lt;div&gt;Изменение Запросов&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;в Админ - Панели&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="200" y="840" width="120" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-18" value="Просмотр, Создание, Удаление,&amp;nbsp;&lt;div&gt;Изменение Запросов Пользователей&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;в Админ - Панели&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-18" value="Просмотр, Создание, Удаление,&amp;nbsp;&lt;div&gt;Изменение Запросов Пользователей&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;в Админ - Панели&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="520" y="840" width="120" height="110" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-19" value="Просмотр, Создание, Удаление,&amp;nbsp;&lt;div&gt;Изменение Транзакций Пользователей&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;в Админ - Панели&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-19" value="Просмотр, Создание, Удаление,&amp;nbsp;&lt;div&gt;Изменение Транзакций Пользователей&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;в Админ - Панели&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="200" y="950" width="120" height="110" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-20" value="Просмотр Логов Пользователей в Админ - Панели" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-20" value="Просмотр Логов Пользователей в Админ - Панели" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="520" y="1060" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-21" value="Регистрация" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-21" value="Регистрация" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="200" y="390" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-22" value="Эикспорт данных в Админ Панели" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-22" value="Эикспорт данных в Админ Панели" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="200" y="1080" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-23" value="Импорт данных в Админ Панели" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-23" value="Импорт данных в Админ Панели" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="200" y="1160" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-24" value="Бэкап Базы Данных в Админ Панели" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-24" value="Бэкап Базы Данных в Админ Панели" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="519" y="1150" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-25" value="Просмотр Виртульной Таблицы &quot;Продукты и Типы Продуктов&quot;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-25" value="Просмотр Виртульной Таблицы &quot;Продукты и Типы Продуктов&quot;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="200" y="1240" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-26" value="Просмотр Виртульной Таблицы &quot;Транзакции&quot;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-26" value="Просмотр Виртульной Таблицы &quot;Транзакции&quot;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="519" y="1240" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="X4jMold8J7gIbocjzrvS-27" value="Просмотр Виртульной Таблицы &quot;Пользователь с Ролями&quot;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="X4jMold8J7gIbocjzrvS-27" value="Просмотр Виртульной Таблицы &quot;Пользователь с Ролями&quot;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="200" y="1320" width="120" height="80" as="geometry" />
         </mxCell>
       </root>
