@@ -1,14 +1,34 @@
-from django.db import models, connection
-from django.db.models.signals import post_save, pre_delete
-from django.dispatch import receiver
+from django.db import (
+    models, 
+    connection,
+    transaction,
+    IntegrityError
+)
+from django.http import JsonResponse
+from django.core.validators import (
+    MinLengthValidator,
+     MaxLengthValidator,
+      RegexValidator
+)
+
+import uuid 
 
 class Logs(models.Model):
-    id = models.AutoField(primary_key=True)  
-    interaction_type = models.CharField(max_length=255)
+    id = models.AutoField(primary_key=True)
+    interaction_type = models.CharField(max_length=255,
+        validators=[MinLengthValidator(3), MaxLengthValidator(100)]
+    )
     created_at = models.DateTimeField(auto_now_add=True)
-    log_type = models.CharField(max_length=255)
-    name = models.CharField(max_length=1000)
-    is_auto_created = models.BooleanField(default=False)  
+    log_type = models.CharField(max_length=255, 
+    validators=[
+        MinLengthValidator(3), 
+        MaxLengthValidator(100)
+    ])
+    name = models.CharField(max_length=1000, validators=[
+        MinLengthValidator(3),
+        MaxLengthValidator(1000)
+    ])
+    is_auto_created = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Лог {self.interaction_type} : {self.created_at}"
@@ -21,45 +41,58 @@ class Logs(models.Model):
 
 
 class ProductTypes(models.Model):
-    id = models.AutoField(primary_key=True)  # Добавляем id
-    name = models.CharField(unique=True, max_length=255)
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(unique=True, max_length=255, 
+    validators=[
+        MinLengthValidator(3),
+        MaxLengthValidator(255)
+    ])
 
     def __str__(self):
         return f"{self.name}"
 
     class Meta:
-        verbose_name = "Типы продуктов"
-        verbose_name_plural = "Типы продуктов"
+        verbose_name = "Типы товаров"
+        verbose_name_plural = "Типы товаров"
         managed = False
         db_table = 'product_types'
-        
 
 
 class Products(models.Model):
-    id = models.AutoField(primary_key=True)  # Добавляем id
-    name = models.CharField(unique=True, max_length=255)
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(unique=True, max_length=255,
+        validators=[MinLengthValidator(2), MaxLengthValidator(255)]
+    )
     description = models.CharField(max_length=1000, blank=True, null=True)
-    onchain_address = models.CharField(unique=True, max_length=60)
-    owner_address = models.CharField(unique=True, max_length=60)
+    onchain_address = models.CharField(unique=True, max_length=60, 
+        validators=[MinLengthValidator(40), MaxLengthValidator(60)]
+    )
+    owner_address = models.CharField(unique=True, max_length=60,
+        validators=[MinLengthValidator(40), MaxLengthValidator(60)]
+    )
     metadata = models.TextField(blank=True, null=True)
     type = models.ForeignKey(ProductTypes, models.DO_NOTHING, db_column='type_id')
 
     def save(self, *args, **kwargs):
-        if not self.pk:  
-            with connection.cursor() as cursor:
-                cursor.callproc(
-                    'add_product_with_type',
-                    [
-                        str(self.name),
-                        str(self.description),
-                        str(self.onchain_address),
-                        str(self.owner_address),
-                        str(self.metadata),
-                        str(self.type.name)
-                    ]
-                )
-        else:
-            super().save(*args, **kwargs)
+        try:
+            with transaction.atomic():
+                if not self.pk:
+                    with connection.cursor() as cursor:
+                        cursor.callproc(
+                            'add_product_with_type',
+                            [
+                                str(self.name),
+                                str(self.description),
+                                str(self.onchain_address),
+                                str(self.owner_address),
+                                str(self.metadata),
+                                str(self.type.name)
+                            ]
+                        )
+                else:
+                    super().save(*args, **kwargs)
+        except Exception as e:
+            return JsonResponse({"error": f"Ошибка при сохранении продукта: {str(e)}"}, status=400)
 
     def __str__(self):
         return f"Товар {self.name}"
@@ -72,12 +105,19 @@ class Products(models.Model):
 
 
 class Requests(models.Model):
-    id = models.AutoField(primary_key=True)  # Добавляем id
+    id = models.AutoField(primary_key=True)
     created_at = models.DateTimeField(blank=True, null=True)
-    description = models.TextField()
-    name = models.CharField(max_length=255)
-    email = models.CharField(max_length=255)
-
+    description = models.TextField(
+        validators=[
+            MinLengthValidator(7)
+        ]
+    )
+    name = models.CharField(max_length=255,
+        validators=[MinLengthValidator(3), MaxLengthValidator(100)]
+    )
+    email = models.CharField(max_length=255,
+        validators=[RegexValidator(r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')]
+    )
 
     def __str__(self):
         return f"Запрос от {self.created_at}"
@@ -90,8 +130,13 @@ class Requests(models.Model):
 
 
 class Roles(models.Model):
-    id = models.AutoField(primary_key=True)  # Добавляем id
-    name = models.CharField(unique=True, max_length=255)
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(unique=True, max_length=255,
+    validators=[
+            MinLengthValidator(3),
+            MaxLengthValidator(255)
+        ]
+    )
 
     def __str__(self):
         return f"Роль {self.name}"
@@ -104,13 +149,17 @@ class Roles(models.Model):
 
 
 class SmartContracts(models.Model):
-    id = models.AutoField(primary_key=True)  # Добавляем id
-    onchain_address = models.CharField(max_length=60)
+    id = models.AutoField(primary_key=True)
+    onchain_address = models.CharField(max_length=60,
+        validators=[MinLengthValidator(40), MaxLengthValidator(60)]
+    )
     abi = models.JSONField(blank=True, null=True)
-    owner_address = models.CharField(max_length=60)
+    owner_address = models.CharField(max_length=60,
+        validators=[MinLengthValidator(40), MaxLengthValidator(60)]
+    )
     status = models.CharField(max_length=100, blank=True, null=True)
-    createad_at = models.DateTimeField()
-    uuid = models.UUIDField()
+    created_at = models.DateTimeField()
+    uuid = models.UUIDField(blank=True, null=True)
 
     def __str__(self):
         return f"Смарт контракт {self.onchain_address}"
@@ -118,40 +167,50 @@ class SmartContracts(models.Model):
     class Meta:
         verbose_name = "Смарт контракты"
         verbose_name_plural = "Смарт контракты"
-        managed = False
+        managed = True
         db_table = 'smart_contracts'
 
 
 class Transactions(models.Model):
-    id = models.AutoField(primary_key=True)  # Добавляем id
-    tx_hash = models.CharField(max_length=65)
+    id = models.AutoField(primary_key=True)
+    tx_hash = models.CharField(max_length=65, validators=[
+        MinLengthValidator(64), MaxLengthValidator(64)
+    ])
     smart_contract = models.ForeignKey(SmartContracts, models.DO_NOTHING, db_column='smart_contract_id')
     type = models.CharField(max_length=255)
     product = models.ForeignKey(Products, models.DO_NOTHING, db_column='product_id')
     tx_date = models.DateTimeField()
-    owner_address = models.CharField(max_length=60)
-    receiver_address = models.CharField(max_length=60, blank=True, null=True)
-
-    def __str__(self):
-        return f"tx {self.tx_hash}" 
+    owner_address = models.CharField(max_length=60,
+        validators=[MinLengthValidator(40), MaxLengthValidator(60)]
+    )
+    receiver_address = models.CharField(max_length=60, blank=True, null=True, 
+        validators=[MinLengthValidator(40), MaxLengthValidator(60)]
+    )
 
     def save(self, *args, **kwargs):
-        if not self.pk:  
-            with connection.cursor() as cursor:
-                cursor.callproc(
-                    'add_transaction',
-                    [
-                        str(self.tx_hash),
-                        str(self.smart_contract.onchain_address),
-                        str(self.product.name),
-                        str(self.type),
-                        self.tx_date,
-                        str(self.owner_address),
-                        str(self.receiver_address)
-                    ]
-                )
-        else:
-            super().save(*args, **kwargs)
+        try:
+            with transaction.atomic():
+                if not self.pk:
+                    with connection.cursor() as cursor:
+                        cursor.callproc(
+                            'add_transaction',
+                            [
+                                str(self.tx_hash),
+                                str(self.smart_contract.onchain_address),
+                                str(self.product.name),
+                                str(self.type),
+                                self.tx_date,
+                                str(self.owner_address),
+                                str(self.receiver_address)
+                            ]
+                        )
+                else:
+                    super().save(*args, **kwargs)
+        except Exception as e:
+            return JsonResponse({"error": f"Ошибка при сохранении транзакции: {str(e)}"}, status=400)
+
+    def __str__(self):
+        return f"tx {self.tx_hash}"
 
     class Meta:
         verbose_name = "Транзакции"
@@ -161,10 +220,10 @@ class Transactions(models.Model):
 
 
 class UserLogs(models.Model):
-    id = models.AutoField(primary_key=True)  # Добавляем id
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey('Users', models.DO_NOTHING, db_column='user_id')
     log = models.ForeignKey(Logs, models.DO_NOTHING, db_column='log_id')
-    uuid = models.UUIDField()
+    uuid = models.UUIDField(blank=True)
 
     def __str__(self):
         return f"Лог {self.uuid}"
@@ -176,15 +235,28 @@ class UserLogs(models.Model):
         db_table = 'user_logs'
 
 
-
 class UserRequests(models.Model):
-    id = models.AutoField(primary_key=True)  # Добавляем id
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey('Users', models.DO_NOTHING, db_column='user_id')
     request = models.ForeignKey(Requests, models.DO_NOTHING, db_column='request_id')
-    uuid = models.UUIDField()
+    uuid = models.UUIDField(blank=True, default=uuid.uuid4())
 
     def __str__(self):
         return f"Запрос {self.uuid}"
+
+    def save(self, *args, **kwargs):
+        try:
+            with transaction.atomic():
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "CALL add_user_request_transaction(%s, %s)", 
+                        [self.user_id, self.request_id]
+                    )
+                super().save(*args, **kwargs)
+        except IntegrityError as e:
+            raise ValueError(f"Failed to save UserRequests object: {e}")
+        except Exception as e:
+            raise ValueError(f"An error occurred: {e}")
 
     class Meta:
         verbose_name = "Запросы пользователей"
@@ -193,12 +265,11 @@ class UserRequests(models.Model):
         db_table = 'user_requests'
 
 
-
 class UserTransactions(models.Model):
-    id = models.AutoField(primary_key=True)  # Добавляем id
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey('Users', models.DO_NOTHING, db_column='user_id')
     tx = models.ForeignKey(Transactions, models.DO_NOTHING, db_column='tx_id')
-    uuid = models.UUIDField()
+    uuid = models.UUIDField(blank=True)
 
     def __str__(self):
         return f"tx {self.uuid}"
@@ -213,317 +284,46 @@ class UserTransactions(models.Model):
 class Users(models.Model):
     id = models.AutoField(primary_key=True)
     uuid = models.UUIDField(blank=True)
-    login = models.CharField(max_length=50)
-    password = models.CharField(max_length=65)
-    address = models.CharField(unique=True, max_length=60)
+    login = models.CharField(max_length=50,
+        validators=[MinLengthValidator(5), MaxLengthValidator(50)]
+    )
+    password = models.CharField(max_length=50, 
+    validators=[
+        MinLengthValidator(7), MaxLengthValidator(50)
+    ])
+    address = models.CharField(unique=True, max_length=60, 
+        validators=[MinLengthValidator(40), MaxLengthValidator(60)]
+    )
     role = models.ForeignKey(Roles, models.DO_NOTHING, db_column='role_id')
+    email = models.CharField(max_length=255,
+        validators=[RegexValidator(r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')]
+    )
+
+    def save(self, *args, **kwargs):
+        try:
+            with transaction.atomic():
+                if not self.pk:
+
+                    with connection.cursor() as cursor:
+                        cursor.callproc(
+                            'add_user_with_role',
+                            [
+                                str(self.login),
+                                str(self.password),
+                                str(self.address),
+                                self.role.name
+                            ]
+                        )
+                else:
+                    super().save(*args, **kwargs)
+        except Exception as e:
+            return JsonResponse({"error": f"Ошибка при сохранении пользователя: {str(e)}"}, status=400)
 
     def __str__(self):
         return f"Пользователь {self.uuid}"
 
-    def save(self, *args, **kwargs):
-        if not self.pk:  
-            if not self.address.startswith('0x') or len(self.address) != 42:
-                raise ValueError("Address must start with '0x' and be 42 characters long.")
-            
-            with connection.cursor() as cursor:
-                cursor.callproc(
-                    'add_user_with_role',
-                    [
-                        str(self.login),
-                        str(self.password),
-                        str(self.address),
-                        self.role.name  
-                    ]
-                )
-        else:
-            super().save(*args, **kwargs)  
-    
     class Meta:
         verbose_name = "Пользователи"
         verbose_name_plural = "Пользователи"
-        managed = False
+        managed = True
         db_table = 'users'
-
-
-def create_logs(interaction_type, log_type, name, username, is_auto_created=False):
-    if is_auto_created:  # Если лог был автоматически создан, не создавать новые логи
-        return
-    Logs.objects.create(
-        interaction_type=interaction_type,
-        log_type=log_type,
-        name=name,
-        is_auto_created=is_auto_created  # Флаг для автоматических логов
-    )
-
-# Обработчики сигналов для каждой модели
-
-@receiver(post_save, sender=Logs)
-def create_log_on_save_logs(sender, instance, created, **kwargs):
-    if instance.is_auto_created:  # Пропустить создание логов для автоматических логов
-        return
-    username = 'slsforme'
-    if created:
-        create_logs(
-            interaction_type="CREATE",
-            log_type="INFO",
-            name=f"Создание {instance.__class__.__name__}: {instance}",
-            username=username,
-            is_auto_created=True  # Лог автоматически создан, пропустим его
-        )
-    else:
-        create_logs(
-            interaction_type="UPDATE",
-            log_type="INFO",
-            name=f"Обновление {instance.__class__.__name__}: {instance}",
-            username=username,
-            is_auto_created=True
-        )
-
-
-@receiver(pre_delete, sender=Logs)
-def create_log_on_delete_logs(sender, instance, **kwargs):
-    if instance.is_auto_created:
-        return
-    username = 'slsforme'
-    create_logs(
-        interaction_type="DELETE",
-        log_type="INFO",
-        name=f"Удаление {instance.__class__.__name__}: {instance}",
-        username=username,
-        is_auto_created=True
-    )
-
-
-@receiver(post_save, sender=ProductTypes)
-def create_log_on_save_product_types(sender, instance, created, **kwargs):
-    username = 'slsforme'
-    if created:
-        create_logs(
-            interaction_type="CREATE",
-            log_type="INFO",
-            name=f"Создание {instance.__class__.__name__}: {instance}",
-            username=username,
-            is_auto_created=True
-        )
-    else:
-        create_logs(
-            interaction_type="UPDATE",
-            log_type="INFO",
-            name=f"Обновление {instance.__class__.__name__}: {instance}",
-            username=username,
-            is_auto_created=True
-        )
-
-
-@receiver(pre_delete, sender=ProductTypes)
-def create_log_on_delete_product_types(sender, instance, **kwargs):
-    username = 'slsforme'
-    create_logs(
-        interaction_type="DELETE",
-        log_type="INFO",
-        name=f"Удаление {instance.__class__.__name__}: {instance}",
-        username=username,
-        is_auto_created=True
-    )
-
-
-@receiver(post_save, sender=Products)
-def create_log_on_save_products(sender, instance, created, **kwargs):
-    username = 'slsforme'
-    if created:
-        create_logs(
-            interaction_type="CREATE",
-            log_type="INFO",
-            name=f"Создание {instance.__class__.__name__}: {instance}",
-            username=username,
-            is_auto_created=True
-        )
-    else:
-        create_logs(
-            interaction_type="UPDATE",
-            log_type="INFO",
-            name=f"Обновление {instance.__class__.__name__}: {instance}",
-            username=username,
-            is_auto_created=True
-        )
-
-
-@receiver(pre_delete, sender=Products)
-def create_log_on_delete_products(sender, instance, **kwargs):
-    username = 'slsforme'
-    create_logs(
-        interaction_type="DELETE",
-        log_type="INFO",
-        name=f"Удаление {instance.__class__.__name__}: {instance}",
-        username=username,
-        is_auto_created=True
-    )
-
-
-@receiver(post_save, sender=Requests)
-def create_log_on_save_requests(sender, instance, created, **kwargs):
-    username = 'slsforme'
-    if created:
-        create_logs(
-            interaction_type="CREATE",
-            log_type="INFO",
-            name=f"Создание {instance.__class__.__name__}: {instance}",
-            username=username,
-            is_auto_created=True
-        )
-    else:
-        create_logs(
-            interaction_type="UPDATE",
-            log_type="INFO",
-            name=f"Обновление {instance.__class__.__name__}: {instance}",
-            username=username,
-            is_auto_created=True
-        )
-
-
-@receiver(pre_delete, sender=Requests)
-def create_log_on_delete_requests(sender, instance, **kwargs):
-    username = 'slsforme'
-    create_logs(
-        interaction_type="DELETE",
-        log_type="INFO",
-        name=f"Удаление {instance.__class__.__name__}: {instance}",
-        username=username,
-        is_auto_created=True
-    )
-
-
-@receiver(post_save, sender=Roles)
-def create_log_on_save_roles(sender, instance, created, **kwargs):
-    username = 'slsforme'
-    if created:
-        create_logs(
-            interaction_type="CREATE",
-            log_type="INFO",
-            name=f"Создание {instance.__class__.__name__}: {instance}",
-            username=username,
-            is_auto_created=True
-        )
-    else:
-        create_logs(
-            interaction_type="UPDATE",
-            log_type="INFO",
-            name=f"Обновление {instance.__class__.__name__}: {instance}",
-            username=username,
-            is_auto_created=True
-        )
-
-
-@receiver(pre_delete, sender=Roles)
-def create_log_on_delete_roles(sender, instance, **kwargs):
-    username = 'slsforme'
-    create_logs(
-        interaction_type="DELETE",
-        log_type="INFO",
-        name=f"Удаление {instance.__class__.__name__}: {instance}",
-        username=username,
-        is_auto_created=True
-    )
-
-
-@receiver(post_save, sender=SmartContracts)
-def create_log_on_save_smart_contracts(sender, instance, created, **kwargs):
-    username = 'slsforme'
-    if created:
-        create_logs(
-            interaction_type="CREATE",
-            log_type="INFO",
-            name=f"Создание {instance.__class__.__name__}: {instance}",
-            username=username,
-            is_auto_created=True
-        )
-    else:
-        create_logs(
-            interaction_type="UPDATE",
-            log_type="INFO",
-            name=f"Обновление {instance.__class__.__name__}: {instance}",
-            username=username,
-            is_auto_created=True
-        )
-
-
-@receiver(pre_delete, sender=SmartContracts)
-def create_log_on_delete_smart_contracts(sender, instance, **kwargs):
-    username = 'slsforme'
-    create_logs(
-        interaction_type="DELETE",
-        log_type="INFO",
-        name=f"Удаление {instance.__class__.__name__}: {instance}",
-        username=username,
-        is_auto_created=True
-    )
-
-
-@receiver(post_save, sender=Transactions)
-def create_log_on_save_transactions(sender, instance, created, **kwargs):
-    username = 'slsforme'
-    if created:
-        create_logs(
-            interaction_type="CREATE",
-            log_type="INFO",
-            name=f"Создание {instance.__class__.__name__}: {instance}",
-            username=username,
-            is_auto_created=True
-        )
-    else:
-        create_logs(
-            interaction_type="UPDATE",
-            log_type="INFO",
-            name=f"Обновление {instance.__class__.__name__}: {instance}",
-            username=username,
-            is_auto_created=True
-        )
-
-
-@receiver(pre_delete, sender=Transactions)
-def create_log_on_delete_transactions(sender, instance, **kwargs):
-    username = 'slsforme'
-    create_logs(
-        interaction_type="DELETE",
-        log_type="INFO",
-        name=f"Удаление {instance.__class__.__name__}: {instance}",
-        username=username,
-        is_auto_created=True
-    )
-
-
-
-
-@receiver(post_save, sender=UserRequests)
-def create_log_on_save_user_requests(sender, instance, created, **kwargs):
-    username = 'slsforme'
-    if created:
-        create_logs(
-            interaction_type="CREATE",
-            log_type="INFO",
-            name=f"Создание {instance.__class__.__name__}: {instance}",
-            username=username,
-            is_auto_created=True
-        )
-    else:
-        create_logs(
-            interaction_type="UPDATE",
-            log_type="INFO",
-            name=f"Обновление {instance.__class__.__name__}: {instance}",
-            username=username,
-            is_auto_created=True
-        )
-
-
-@receiver(pre_delete, sender=UserRequests)
-def create_log_on_delete_user_requests(sender, instance, **kwargs):
-    username = 'slsforme'
-    create_logs(
-        interaction_type="DELETE",
-        log_type="INFO",
-        name=f"Удаление {instance.__class__.__name__}: {instance}",
-        username=username,
-        is_auto_created=True
-    )
-

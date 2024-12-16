@@ -51,7 +51,7 @@
                 <td>{{ product.1 }}</td>
                 <td>{{ product.2 }}</td>
                 <td>{{ product.3 }}</td>
-                <td>{{ product.4 }}</td>
+                <td>{{ product.5 }}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -59,38 +59,41 @@
 
     <hr class="my-5">
     <h3 class="py-4">Транзакции</h3>
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>ID Транзакции</th>
-                <th>Хэш Транзакции</th>
-                <th>ID Смарт Контракта </th>
-                <th>Тип Транзакции</th>
-                <th>ID Товара</th>
-                <th>Дата Транзакции</th>
-                <th>Адрес Владельца</th>
-                <th>Адрес получателя</th>
-                <th>Адрес Смарт Контракта</th>
-                <th>Название Товара</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for tx in txs %}
-            <tr>
-                <td>{{ tx.0 }}</td>
-                <td>{{ tx.1 }}</td>
-                <td>{{ tx.2 }}</td>
-                <td>{{ tx.3 }}</td>
-                <td>{{ tx.4 }}</td>
-                <td>{{ tx.5 }}</td>
-                <td>{{ tx.6 }}</td>
-                <td>{{ tx.7 }}</td>
-                <td>{{ tx.78}}</td>
-                <td>{{ tx.9 }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-responsive" style="overflow-x: auto;">
+        <table class="table table-bordered table-striped" >
+            <thead>
+                <tr >
+                    <th>ID Транзакции</th>
+                    <th>Хеш Транзакции</th>
+                    <th>ID Смарт Контракта</th>
+                    <th>Тип Транзакции</th>
+                    <th>ID Товара</th>
+                    <th>Дата Транзакции</th>
+                    <th>Адрес Владельца</th>
+                    <th>Адрес Получателя</th>
+                    <th>Адрес Смарт Контракта</th>
+                    <th>Название Товара</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tx in txs %}
+                <tr>
+                    <td>{{ tx.0 }}</td>
+                    <td>{{ tx.1 }}</td>
+                    <td>{{ tx.2 }}</td>
+                    <td>{{ tx.3 }}</td>
+                    <td>{{ tx.4 }}</td>
+                    <td>{{ tx.5 }}</td>
+                    <td>{{ tx.6 }}</td>
+                    <td>{{ tx.7 }}</td>
+                    <td>{{ tx.8 }}</td>
+                    <td>{{ tx.9 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
 
 
 </div>

@@ -48,12 +48,12 @@ def get_username_by_request(request) -> Optional[int]:
         if user.is_authenticated:
             return user.username
     except Exception as e:
-        print(f"Exception occured while getting username from request: {e}")
+        return HttpResponse(f"Error occurred while retrieving username: {e}", status=500)
 
 
 def virtual_views(request):
     try:
-        create_logs("Просмотр", str(LogLevel.INFO), "Просмотр Виртуальных Таблиц", get_username_by_request(request=request))
+        create_logs("Просмотр", LogLevel.INFO.value, "Просмотр Виртуальных Таблиц", get_username_by_request(request=request))
 
         db_config = {
             'dbname': settings.DATABASES['default']['NAME'],
@@ -68,21 +68,15 @@ def virtual_views(request):
                 users_query = "SELECT * FROM users_with_roles_view"
                 cur_users.execute(users_query)
                 users_with_roles = cur_users.fetchall()
-                cur_users.close()
-
             with conn.cursor() as cur_products:
                 products_query = "SELECT * FROM products_with_types_view"
                 cur_products.execute(products_query)
                 products_with_types = cur_products.fetchall()
-                cur_products.close()
-
             with conn.cursor() as cur_tx:
                 tx_query = "SELECT * FROM tx_view;"
                 cur_tx.execute(tx_query)
                 txs = cur_tx.fetchall()
-                cur_tx.close()
 
-        
         return render(request, 'admin/views.html', {
             'users_with_roles': users_with_roles, 
             'products_with_types': products_with_types,
@@ -90,14 +84,17 @@ def virtual_views(request):
         })
     
     except Exception as e:
-        print('Ошибка при подключении к базе данных:', e)
-        create_logs("Ошибка", str(LogLevel.ERROR), "Ошибка при просмотре виртуальных таблиц", get_username_by_request(request=request))
-        return render(request, 'error_template.html', {'message': str(e)})
+        create_logs("Ошибка", LogLevel.ERROR.value, "Ошибка при просмотре виртуальных таблиц", get_username_by_request(request=request))
+        return HttpResponse(f"Error while fetching virtual views: {str(e)}", status=500)
+
 
 @staff_member_required
 def functions_admin_view(request):
-    create_logs("Просмотр", str(LogLevel.INFO), "Просмотр функционала в Админ - Панели", get_username_by_request(request=request))
-    return render(request, 'admin/functions.html')
+    try:
+        create_logs("Просмотр", LogLevel.INFO.value, "Просмотр функционала в Админ - Панели", get_username_by_request(request=request))
+        return render(request, 'admin/functions.html')
+    except Exception as e:
+        return HttpResponse(f"Error loading admin functions view: {str(e)}", status=500)
 
 
 def export_data(request):
@@ -107,20 +104,20 @@ def export_data(request):
             file_format = request.POST.get("format")
 
             if not model_name or not file_format:
-                return HttpResponse("Модель и формат обязательны.", status=400)
+                return HttpResponse("Model and format are required.", status=400)
 
-            # Получаем класс модели
+            # Getting the model class
             model_class = globals().get(model_name)
             if not model_class:
-                return HttpResponse(f"Модель {model_name} не найдена.", status=404)
+                return HttpResponse(f"Model {model_name} not found.", status=404)
 
-            # Извлекаем данные
+            # Extract data
             data = model_class.objects.all()
             
             if file_format == "sql":
-                # Генерация SQL для экспорта
+                # Generate SQL for export
                 output = StringIO()
-                output.write(f"-- Экспорт данных для модели {model_name}\n\n")
+                output.write(f"-- Export data for model {model_name}\n\n")
 
                 for obj in data:
                     fields = [f.name for f in model_class._meta.fields]
@@ -130,31 +127,32 @@ def export_data(request):
 
                 response = HttpResponse(output.getvalue(), content_type="text/sql")
                 response["Content-Disposition"] = f"attachment; filename={model_name}.sql"
-                create_logs("Экспорт", str(LogLevel.INFO), "Экспорт Данных в формате SQL", get_username_by_request(request=request))
+                create_logs("Экспорт", LogLevel.INFO.value, "Экспорт Данных в формате SQL", get_username_by_request(request=request))
                 return response
 
-            # Для других форматов (CSV, JSON, XLSX) код остаётся прежним
+            # Handle other formats (CSV, JSON, XLSX)
             if file_format == "csv":
                 response = HttpResponse(data.csv, content_type="text/csv")
                 response["Content-Disposition"] = f"attachment; filename={model_name}.csv"
-                create_logs("Экспорт", str(LogLevel.INFO), "Экспорт Данных в формате csv", get_username_by_request(request=request))
+                create_logs("Экспорт", LogLevel.INFO.value, "Экспорт Данных в формате csv", get_username_by_request(request=request))
             elif file_format == "json":
                 response = HttpResponse(data.json, content_type="application/json")
                 response["Content-Disposition"] = f"attachment; filename={model_name}.json"
-                create_logs("Экспорт", str(LogLevel.INFO), "Экспорт Данных в формате json", get_username_by_request(request=request))
+                create_logs("Экспорт", LogLevel.INFO.value, "Экспорт Данных в формате json", get_username_by_request(request=request))
             elif file_format == "xlsx":
                 response = HttpResponse(data.xlsx, content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                 response["Content-Disposition"] = f"attachment; filename={model_name}.xlsx"
-                create_logs("Экспорт", str(LogLevel.INFO), "Экспорт Данных в формате xlsx", get_username_by_request(request=request))
+                create_logs("Экспорт", LogLevel.INFO.value, "Экспорт Данных в формате xlsx", get_username_by_request(request=request))
             else:
-                return HttpResponse("Неподдерживаемый формат.", status=400)
+                return HttpResponse("Unsupported format.", status=400)
 
             return response
 
-        return HttpResponse("Некорректный запрос.", status=400)
+        return HttpResponse("Invalid request.", status=400)
     except Exception as e:
-        create_logs("Ошибка", str(LogLevel.ERROR), "Ошибка при экспорте данных", get_username_by_request(request=request))
-        print(f"Exception occured while exporting data: {e}")
+        create_logs("Ошибка", LogLevel.INFO.value, "Ошибка при экспорте данных", get_username_by_request(request=request))
+        return HttpResponse(f"Error occurred while exporting data: {e}", status=500)
+
 
 def import_data(request):
     try:
@@ -163,11 +161,11 @@ def import_data(request):
             import_file = request.FILES["file"]
 
             if not model_name or not import_file:
-                return HttpResponse("Модель и файл обязательны.", status=400)
+                return HttpResponse("Model and file are required.", status=400)
 
             model_class = globals().get(model_name)
             if not model_class:
-                return HttpResponse(f"Модель {model_name} не найдена.", status=404)
+                return HttpResponse(f"Model {model_name} not found.", status=404)
 
             sql_commands = import_file.read().decode("utf-8").split(";")
 
@@ -178,15 +176,15 @@ def import_data(request):
                         try:
                             cursor.execute(command)
                         except Exception as e:
-                            return HttpResponse(f"Ошибка выполнения SQL: {str(e)}", status=400)
+                            return HttpResponse(f"SQL execution error: {str(e)}", status=400)
 
-            create_logs("Импорт", str(LogLevel.INFO), f"Импорт данных в таблицу {model_name}", get_username_by_request(request=request))
-            return HttpResponse(f"Данные для модели {model_name} успешно импортированы.", status=200)
+            create_logs("Импорт", LogLevel.INFO.value, f"Imported data to {model_name} table", get_username_by_request(request=request))
+            return HttpResponse(f"Data for model {model_name} successfully imported.", status=200)
 
-        return HttpResponse("Некорректный запрос.", status=400)
+        return HttpResponse("Invalid request.", status=400)
     except Exception as e:
-        create_logs("Ошибка", str(LogLevel.ERROR), "Ошибка при импорте данных", get_username_by_request(request=request))
-        print(f"Exception occurred while importing data: {e}")
+        create_logs("Ошибка", LogLevel.ERROR.value, "Ошибка при импорте данных", get_username_by_request(request=request))
+        return HttpResponse(f"Error occurred while importing data: {e}", status=500)
 
 
 def backup_database_view(request):
@@ -218,15 +216,16 @@ def backup_database_view(request):
                 content_type="application/octet-stream"
             )
             response["Content-Disposition"] = f'attachment; filename="{backup_file_name}"'
-            create_logs("Создание бэкапа", str(LogLevel.INFO), "Бэкап был создан", get_username_by_request(request=request))
+            create_logs("Создание бэкапа", LogLevel.INFO.value, "Backup created successfully", get_username_by_request(request=request))
             return response
 
         except subprocess.CalledProcessError as e:
-            return HttpResponse(f"Ошибка создания бэкапа: {e}", status=500)
+            return HttpResponse(f"Error creating backup: {e}", status=500)
         except Exception as e:
-            return HttpResponse(f"Произошла ошибка: {e}", status=500)
+            return HttpResponse(f"Error occurred: {e}", status=500)
     except Exception as e:
-        create_logs("Ошибка", str(LogLevel.ERROR), "Ошибка при создании бэкапа", get_username_by_request(request=request))
+        create_logs("Ошибка", LogLevel.ERROR.value, "Ошибка при создании бэкапа", get_username_by_request(request=request))
+        return HttpResponse(f"Error occurred while creating backup: {e}", status=500)
 
 
 @require_GET
@@ -241,6 +240,6 @@ def TON_price_json(request: HttpRequest):
         return JsonResponse({'price-data': ton_data_json})
     except Exception as e:
         settings.LOGGER.error(
-            "Error occured while sending data "
-            f"about Toncoin price: {e} (error)"
+            f"Error occurred while sending data about Toncoin price: {e} (error)"
         )
+        return HttpResponse(f"Error occurred while fetching Toncoin price: {e}", status=500)

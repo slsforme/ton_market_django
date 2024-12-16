@@ -6,5 +6,5 @@ class GraphqlApiConfig(AppConfig):
     name = 'graphql_api'
     
     def ready(self):
-        from graphql_api import log_helper
-        log_helper.register_signals()
+        import graphql_api.signals
+        

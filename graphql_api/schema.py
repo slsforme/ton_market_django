@@ -292,34 +292,6 @@ class Mutation:
         transaction.delete()
         return True
 
-    @strawberry.field
-    def create_user_log(self, user_id: int, 
-                        action: str, 
-                        created_at: str) -> UserLogsType:
-        user_log = UserLogs(user_id=user_id, 
-                            action=action, 
-                            created_at=created_at)
-        user_log.save()
-        return user_log
-
-    @strawberry.field
-    def update_user_log(self, 
-                        id: int, 
-                        user_id: int,
-                        action: str,
-                        created_at: str) -> UserLogsType:
-        user_log = UserLogs.objects.get(id=id)
-        user_log.user_id = user_id
-        user_log.action = action
-        user_log.created_at = created_at
-        user_log.save()
-        return user_log
-
-    @strawberry.field
-    def delete_user_log(self, id: int) -> bool:
-        user_log = UserLogs.objects.get(id=id)
-        user_log.delete()
-        return True
 
     # CRUD for UserRequests
     @strawberry.field

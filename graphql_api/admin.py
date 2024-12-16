@@ -16,6 +16,17 @@ class LogsAdmin(admin.ModelAdmin):
     search_fields = ('interaction_type', 'log_type', 'name')
     list_filter = ('log_type', 'created_at')
     list_per_page = 100
+
+    readonly_fields = ('id', 'interaction_type', 'created_at', 'log_type', 'name')
+    
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
     
 
 
@@ -54,9 +65,9 @@ class RolesAdmin(admin.ModelAdmin):
 
 @admin.register(SmartContracts)
 class SmartContractsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'onchain_address', 'owner_address', 'status', 'createad_at', 'uuid')
+    list_display = ('id', 'onchain_address', 'owner_address', 'status', 'created_at', 'uuid')
     search_fields = ('onchain_address', 'owner_address', 'uuid')
-    list_filter = ('status', 'createad_at')
+    list_filter = ('status', 'created_at')
     list_per_page = 20
 
 
@@ -75,11 +86,23 @@ class UserLogsAdmin(admin.ModelAdmin):
     list_filter = ('log',)
     list_per_page = 100
 
+    readonly_fields = ('id', 'user', 'log', 'uuid')
+    
+    # Запрет добавления, изменения и удаления объектов
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
 
 
 @admin.register(UserRequests)
 class UserRequestsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'request', 'uuid')
+    list_display = ('id', 'user', 'request')
     search_fields = ('uuid',)
     list_filter = ('request',)
     list_per_page = 50
@@ -95,7 +118,7 @@ class UserTransactionsAdmin(admin.ModelAdmin):
 
 @admin.register(Users)
 class UsersAdmin(admin.ModelAdmin):
-    list_display = ('id', 'login', 'address', 'role')
+    list_display = ('id', 'login', 'address', 'role', 'email')
     search_fields = ('login', 'address', 'uuid')
     list_filter = ('role',)
     list_per_page = 20
